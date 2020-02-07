@@ -2,8 +2,9 @@
 """
 Author : Tania Chakraborty (taniac101)
 Date   : 2020-02-06
-Purpose:
+Purpose: Second homework - favorite things
 """
+from typing import Any
 
 import argparse
 import os
@@ -18,55 +19,43 @@ def get_args():
         description='My Favorite Things',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('text',
+    parser.add_argument('items',
                         metavar='str',
+                        nargs='+',
                         help='Some things')
 
-    parser.add_argument('-a',
-                        '--arg',
-                        help='A named string argument',
-                        metavar='str',
-                        type=str,
-                        default='')
-
-    parser.add_argument('-i',
-                        '--int',
-                        help='A named integer argument',
-                        metavar='int',
-                        type=int,
-                        default=0)
-
-    parser.add_argument('-f',
-                        '--file',
-                        help='A readable file',
-                        metavar='FILE',
-                        type=argparse.FileType('r'),
-                        default=None)
-
-    parser.add_argument('-o',
-                        '--on',
-                        help='A boolean flag',
-                        action='store_true')
+    parser.add_argument('-s',
+                        '--sep',
+                        help='A separator',
+                        default=',')
 
     return parser.parse_args()
 
 
-# --------------------------------------------------
+# -------------------------------------------------
 def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    str_arg = args.arg
-    int_arg = args.int
-    file_arg = args.file
-    flag_arg = args.on
-    pos_arg = args.positional
+    items = args.items
+    sep = args.sep
+    fav = ''
 
-    print('str_arg = "{}"'.format(str_arg))
-    print('int_arg = "{}"'.format(int_arg))
-    print('file_arg = "{}"'.format(file_arg.name if file_arg else ''))
-    print('flag_arg = "{}"'.format(flag_arg))
-    print('positional = "{}"'.format(pos_arg))
+    if len(items) == 1:
+        fav = items[0]
+        print(f"{fav}\nThis is one of my favorite things.")
+    elif len(items) == 2 and sep is ',':
+        fav = ', '.join(items)
+        print("{}\nThese are a few of my favorite things.".format(fav))
+    elif len(items) == 2 and sep is not ',':
+        fav = sep.join(items)
+        print("{}\nThese are a few of my favorite things.".format(fav))
+    elif len(items) > 2 and sep is ',':
+        fav = ', '.join(items)
+        print("{}\nThese are a few of my favorite things.".format(fav))
+    else:
+        fav = sep.join(items)
+        print("{}\nThese are a few of my favorite things.".format(fav))
 
 
 # --------------------------------------------------
