@@ -17,6 +17,7 @@ def get_args():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument('vowel', metavar='vowel', help='A vowel to look for')
+    # add choices = 'aeiouAEIOU' to make this shorter
     parser.add_argument('text', metavar='text', help='The text to search')
 
     args = parser.parse_args()
@@ -35,6 +36,7 @@ def main():
     text = args.text
     vowel = args.vowel
 
+    # index {text.index(vowel)} - to get index of character in text
     for i in range(len(text)):
         if text[i] is vowel:
             print(f'Found "{vowel}" in "{text}" at index {i}.')
