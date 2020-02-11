@@ -42,17 +42,14 @@ def main():
     fav = ''
 
     if len(items) == 1:
-        fav = items[0]
-        print(f"{fav}\nThis is one of my favorite things.")
+        print("{}\nThis is one of my favorite things.".format(items[0]))
     elif len(items) == 2 and sep is ',':
-        fav = ', '.join(items)
-        print("{}\nThese are a few of my favorite things.".format(fav))
+        print("{}\nThese are a few of my favorite things.".format(', ' .join(items)))
     elif len(items) == 2 and sep is not ',':
         fav = sep.join(items)
         print("{}\nThese are a few of my favorite things.".format(fav))
     elif len(items) > 2 and sep is ',':
-        fav = ', '.join(items)
-        print("{}\nThese are a few of my favorite things.".format(fav))
+        print("{}\nThese are a few of my favorite things.".format(', ' .join(items)))
     else:
         fav = sep.join(items)
         print("{}\nThese are a few of my favorite things.".format(fav))
