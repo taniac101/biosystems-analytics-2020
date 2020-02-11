@@ -1,2 +1,7 @@
 to copy a list:
 items2 = items[:]
+
+sorted(items) is a function, like len(items)
+items is as a whole an argument here. returns a sorted new list, doesn't change the items
+
+items.sort() is a method. it is attached to the item. doesn't return, changes the list. items now returns NoneType.
