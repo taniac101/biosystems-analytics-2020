@@ -20,13 +20,10 @@ def get_args():
 
     parser.add_argument('item',
                         metavar='str',
-                        nargs='+',
-                        help='The things to order (default: None)')
+                        nargs='*',
+                        help='The things to order')
 
-    parser.add_argument('-r',
-                        '--reverse',
-                        nargs='+',
-                        help='Reverse the sort order')
+    parser.add_argument('-r', '--reverse', nargs= '*', metavar = '', help= 'Reverse the sort order')
 
     return parser.parse_args()
 
@@ -34,29 +31,15 @@ def get_args():
 # --------------------------------------------------
 def main():
     """Make a jazz noise here"""
-    if len(sys.argv) == 1:
-        sys.exit('You have failed me for the last time, Commander.')
 
     args = get_args()
-    items = args.item
-    a = sorted(items)
-    b = reversed(items)
 
-    for index, value in enumerate(a, start=1):
-        print('  {}: {}'.format(index, value))
-
-    if args.reverse:
-        for index, value in enumerate(b, start=1):
-            print('{}: {}'.format(index, value))
-
-    """if args.reverse == True:
-        revlist = reversed(items)
-        for i in range(len(revlist)):
-            print('{}: {}'.format(i+1, revlist[i]))
+    if args.reverse is not None:
+        for index, value in enumerate(sorted(args.item, reverse=True), start=1):
+            print('{:3}: {}'.format(index, value))
     else:
-        list = sorted(items)
-        for i in range(len(list)):
-            print('{}: {}'.format(i + 1, list[i]).join('\n', list))"""
+        for index, value in enumerate(sorted(args.item), start=1):
+            print('{:3}: {}'.format(index, value))
 
 
 # --------------------------------------------------
