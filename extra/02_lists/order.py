@@ -33,8 +33,10 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-
-    if args.reverse is not None:
+    if not len(args.item) > 0:
+        print('You have failed me for the last time, Commander.')
+        sys.exit()
+    elif args.reverse is not None:
         for index, value in enumerate(sorted(args.item, reverse=True), start=1):
             print('{:3}: {}'.format(index, value))
     else:
