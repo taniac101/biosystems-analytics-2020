@@ -31,8 +31,15 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    
-
+    answers = {'Monday': 'On Mondays I never go to work', 'Tuesday': 'On Tuesdays I stay at home',
+               'Wednesday': 'On Wednesdays I never feel inclined', 'Thursday': "On Thursdays, it's a holiday",
+               'Friday': 'And Fridays I detest', 'Saturday': "Oh, it's much too late on a Saturday",
+               'Sunday': 'And Sunday is the day of rest'}
+    for char in args.days:
+        if char in answers.keys():
+            print('{}'.format(answers.get(char), end = '\n'))
+        else:
+            print("Can't find \"{}\"".format(char))
 
 # --------------------------------------------------
 if __name__ == '__main__':
