@@ -6,8 +6,6 @@ Purpose: Rock the Casbah
 """
 
 import argparse
-import os
-import sys
 
 
 # --------------------------------------------------
@@ -28,7 +26,8 @@ def get_args():
                         type=int,
                         default=10)
     args = parser.parse_args()
-    if args.num <= 0: parser.error(f'--num "{args.num}" must be greater than 0')
+    if args.num <= 0:
+        parser.error(f'--num "{args.num}" must be greater than 0')
     return parser.parse_args()
 
 
@@ -38,7 +37,7 @@ def main():
     args = get_args()
 
     with args.FILE as fh:
-        n_lines=fh.readlines()[0:args.num]
+        n_lines = fh.readlines()[0:args.num]
         print(''.join(n_lines))
 
 
