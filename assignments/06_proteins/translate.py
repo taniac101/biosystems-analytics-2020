@@ -6,9 +6,6 @@ Purpose: Codons to Amino Acids
 """
 
 import argparse
-import os
-import sys
-
 
 # --------------------------------------------------
 def get_args():
@@ -35,8 +32,9 @@ def get_args():
                         default='out.txt')
     args = parser.parse_args()
     if not args.codons:
-        parser.error()
-    return parser.parse_args()
+        parser.error("Codon File Not Provided")
+    else:
+        return parser.parse_args()
 
 
 # --------------------------------------------------
@@ -44,16 +42,16 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    input_sequence  = args.str.lower()
+    input_sequence = args.str.lower()
     k = 3
-    input_codons= [input_sequence[i:i + k] for i in range(0, len(input_sequence), k)]
+    input_codons = [input_sequence[i:i + k] for i in range(0, len(input_sequence), k)]
     codon_table = {}
     for line in args.codons:
         (key, value) = line.split()
         codon_table[(key.lower())] = value
     for i in input_codons:
         aa = codon_table.get(i) if i in codon_table else '-'
-        print('{}'.join(aa), end = '', file = args.outfile)
+        print('{}'.join(aa), end='', file=args.outfile)
     print(f'Output written to "{args.outfile.name}".')
 
 
