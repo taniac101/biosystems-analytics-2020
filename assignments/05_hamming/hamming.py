@@ -36,8 +36,7 @@ def main():
 
     args = get_args()
     for line in args.input:
-        lines = line.rstrip().split(' ')
-        column_a, column_b = lines[0], lines[1]
+        column_a, column_b = line.rstrip().split()
         h_dist = sum(1 for a, b in zip(column_a, column_b)
                      if a != b) + abs(len(column_a) - len(column_b))
         if args.min:
