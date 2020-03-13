@@ -4,9 +4,7 @@ Author : Tania Chakraborty (taniac101)
 Date   : 2020-02-27
 Purpose: Codons to Amino Acids
 """
-
 import argparse
-
 
 # --------------------------------------------------
 def get_args():
