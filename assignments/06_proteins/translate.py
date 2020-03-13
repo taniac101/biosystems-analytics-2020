@@ -7,6 +7,7 @@ Purpose: Codons to Amino Acids
 
 import argparse
 
+
 # --------------------------------------------------
 def get_args():
     """Get command-line arguments"""
@@ -15,9 +16,7 @@ def get_args():
         description='Translate DNA/RNA to Amino Acids',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('str',
-                        metavar='str',
-                        help='DNA/RNA sequence')
+    parser.add_argument('str', metavar='str', help='DNA/RNA sequence')
     parser.add_argument('-c',
                         '--codons',
                         help='A file with codon translations',
@@ -28,7 +27,7 @@ def get_args():
                         '--outfile',
                         help='A file with codon translations',
                         metavar='FILE',
-                        type=argparse.FileType('wt'),
+                        type=argparse.FileType('w'),
                         default='out.txt')
     args = parser.parse_args()
     if not args.codons:
@@ -42,19 +41,14 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    input_sequence = args.str.lower()
     k = 3
-    input_codons = [input_sequence[i:i + k] for i in range(0, len(input_sequence), k)]
-    codon_table = {}
-    for line in args.codons:
-        (key, value) = line.split()
-        codon_table[(key.lower())] = value
+    input_codons = [args.str.lower()[i:i + k]
+                    for i in range(0, len(args.str.lower()), k)]
+    codon_table = {line[0:3].lower(): line[4] for line in args.codons}
     for i in input_codons:
         aa = codon_table.get(i) if i in codon_table else '-'
         print('{}'.join(aa), end='', file=args.outfile)
     print(f'Output written to "{args.outfile.name}".')
-
-
 
 
 # --------------------------------------------------
