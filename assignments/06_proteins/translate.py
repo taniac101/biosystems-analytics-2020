@@ -15,16 +15,13 @@ def get_args():
     parser = argparse.ArgumentParser(
         description='Translate DNA/RNA to Amino Acids',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-
     parser.add_argument('str', metavar='str', help='DNA/RNA sequence')
-    parser.add_argument('-c',
-                        '--codons',
+    parser.add_argument('-c','--codons',
                         help='A file with codon translations',
                         metavar='FILE',
                         type=argparse.FileType('r'),
                         default=None)
-    parser.add_argument('-o',
-                        '--outfile',
+    parser.add_argument('-o','--outfile',
                         help='A file with codon translations',
                         metavar='FILE',
                         type=argparse.FileType('w'),
@@ -34,7 +31,6 @@ def get_args():
         parser.error("Codon File Not Provided")
     else:
         return parser.parse_args()
-
 
 # --------------------------------------------------
 def main():
@@ -47,7 +43,6 @@ def main():
         aa = codon_table.get(i) if i in codon_table else '-'
         print('{}'.join(aa), end='', file=args.outfile)
     print(f'Output written to "{args.outfile.name}".')
-
 
 # --------------------------------------------------
 if __name__ == '__main__':
