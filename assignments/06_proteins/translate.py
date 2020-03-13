@@ -38,8 +38,6 @@ def get_args():
 
 # --------------------------------------------------
 def main():
-    """Make a jazz noise here"""
-
     args = get_args()
     k = 3
     input_codons = [args.str.lower()[i:i + k]
