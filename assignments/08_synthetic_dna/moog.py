@@ -19,9 +19,9 @@ def get_args():
     parser.add_argument('-t','--seqtype',help='DNA or RNA',
                         metavar='str',
                         type=str,
-                        default='DNA',
+                        default='dna',
                         choices = ['dna','rna'])
-    parser.add_argument('-n','--numseqs:',
+    parser.add_argument('-n','--numseqs',
                         help='Number of sequences to create',
                         metavar='int',
                         type=int,
@@ -49,36 +49,31 @@ def get_args():
     args = parser.parse_args()
     if not 0 < args.pctgc < 1:
         parser.error(f'--pctgc "{args.pctgc}" must be between 0 and 1')
-    if not os.path.isfile(args.outfile):
-        os.makefile(args.outfile)
-    return args
+    return parser.parse_args()
+
+# --------------------------------------------------
+def create_pool(pctgc, maxlen, seq_type):
+    """ Create the pool of bases """
+    t_or_u = 'T' if seq_type == 'dna' else 'U'
+    num_gc = int((pctgc / 2) * maxlen)
+    num_at = int(((1 - pctgc) / 2) * maxlen)
+    pool = 'A' * num_at + 'C' * num_gc + 'G' * num_gc + t_or_u * num_at
+    for _ in range(maxlen - len(pool)):
+        pool += random.choice(pool)
+    return ''.join(sorted(pool))
 
 # --------------------------------------------------
 def main():
     """Make a jazz noise here"""
-
     args = get_args()
     random.seed(args.seed)
-    random.seed(args.seed)
     pool = create_pool(args.pctgc, args.maxlen, args.seqtype)
-    for ...:
-    seq_len = ...
-    seq = ...
-    args.outfile.write(...))
-    print(...)
-
-# --------------------------------------------------
-
-def create_pool(pctgc, max_len, seq_type):
-    """ Create the pool of bases """
-    t_or_u = 'T' if seq_type == 'dna' else 'U'
-    num_gc = int((pctgc / 2) * max_len)
-    num_at = int(((1 - pctgc) / 2) * max_len)
-    pool = 'A' * num_at + 'C' * num_gc + 'G' * num_gc + t_or_u * num_at
-    for _ in range(max_len - len(pool)):
-        pool += random.choice(pool)
-    return ''.join(sorted(pool))
-
+    for i in range(0, args.numseqs):
+        seq_len = random.randint(args.minlen, args.maxlen)
+        seq = ''.join(random.sample(pool, seq_len))
+        num_seq = i+1
+        print(f'>{num_seq}\n{seq}', file = args.outfile)
+    print(f'Done, wrote {num_seq} {seq_type} sequences to "{out_file}".')
 
 # --------------------------------------------------
 if __name__ == '__main__':
