@@ -6,9 +6,8 @@ Purpose: Synthetic sequence creation
 """
 
 import argparse
-import os
-import sys
 import random
+
 # --------------------------------------------------
 def get_args():
     """Get command-line arguments"""
@@ -16,33 +15,46 @@ def get_args():
     parser = argparse.ArgumentParser(
         description='Create synthetic sequences',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-t','--seqtype',help='DNA or RNA',
+    parser.add_argument('-t',
+                        '--seqtype',
+                        help='DNA or RNA',
                         metavar='str',
                         type=str,
                         default='dna',
-                        choices = ['dna','rna'])
-    parser.add_argument('-n','--numseqs',
+                        choices=['dna', 'rna'])
+    parser.add_argument('-n',
+                        '--numseqs',
                         help='Number of sequences to create',
                         metavar='int',
                         type=int,
                         default=10)
-    parser.add_argument('-m','--minlen',help='Minimum length',
+    parser.add_argument('-m',
+                        '--minlen',
+                        help='Minimum length',
                         metavar='int',
                         type=int,
                         default=50)
-    parser.add_argument('-x','--maxlen',help='Maximum length',
+    parser.add_argument('-x',
+                        '--maxlen',
+                        help='Maximum length',
                         metavar='int',
                         type=int,
                         default=75)
-    parser.add_argument('-s','--seed',help='Random seed',
+    parser.add_argument('-s',
+                        '--seed',
+                        help='Random seed',
                         metavar='int',
                         type=int,
                         default=None)
-    parser.add_argument('-p','--pctgc',help='Percent GC',
+    parser.add_argument('-p',
+                        '--pctgc',
+                        help='Percent GC',
                         metavar='float',
                         type=float,
                         default=0.5)
-    parser.add_argument('-o','--outfile',help='Output filename',
+    parser.add_argument('-o',
+                        '--outfile',
+                        help='Output filename',
                         metavar='str',
                         type=argparse.FileType('wt'),
                         default='out.fa')
@@ -71,8 +83,8 @@ def main():
     for i in range(0, args.numseqs):
         seq_len = random.randint(args.minlen, args.maxlen)
         seq = ''.join(random.sample(pool, seq_len))
-        num_seq = i+1
-        print(f'>{num_seq}\n{seq}', file = args.outfile)
+        num_seq = i + 1
+        print(f'>{num_seq}\n{seq}', file=args.outfile)
     print(f'Done, wrote {num_seq} {args.seqtype.upper()}'
           f' sequences to "{args.outfile.name}".')
 
