@@ -73,7 +73,8 @@ def main():
         seq = ''.join(random.sample(pool, seq_len))
         num_seq = i+1
         print(f'>{num_seq}\n{seq}', file = args.outfile)
-    print(f'Done, wrote {num_seq} {seq_type} sequences to "{out_file}".')
+    print(f'Done, wrote {num_seq} {args.seqtype.upper()}'
+          f' sequences to "{args.outfile.name}".')
 
 # --------------------------------------------------
 if __name__ == '__main__':
