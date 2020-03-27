@@ -8,8 +8,7 @@ Purpose: Synthetic sequence creation
 import argparse
 import os
 import sys
-
-
+import random
 # --------------------------------------------------
 def get_args():
     """Get command-line arguments"""
@@ -20,7 +19,8 @@ def get_args():
     parser.add_argument('-t','--seqtype',help='DNA or RNA',
                         metavar='str',
                         type=str,
-                        default='DNA')
+                        default='DNA',
+                        choices = ['dna','rna'])
     parser.add_argument('-n','--numseqs:',
                         help='Number of sequences to create',
                         metavar='int',
@@ -44,27 +44,40 @@ def get_args():
                         default=0.5)
     parser.add_argument('-o','--outfile',help='Output filename',
                         metavar='str',
+                        type=argparse.FileType('wt'),
                         default='out.fa')
-
-    return parser.parse_args()
-
+    args = parser.parse_args()
+    if not 0 < args.pctgc < 1:
+        parser.error(f'--pctgc "{args.pctgc}" must be between 0 and 1')
+    if not os.path.isfile(args.outfile):
+        os.makefile(args.outfile)
+    return args
 
 # --------------------------------------------------
 def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    str_arg = args.arg
-    int_arg = args.int
-    file_arg = args.file
-    flag_arg = args.on
-    pos_arg = args.positional
+    random.seed(args.seed)
+    random.seed(args.seed)
+    pool = create_pool(args.pctgc, args.maxlen, args.seqtype)
+    for ...:
+    seq_len = ...
+    seq = ...
+    args.outfile.write(...))
+    print(...)
 
-    print('str_arg = "{}"'.format(str_arg))
-    print('int_arg = "{}"'.format(int_arg))
-    print('file_arg = "{}"'.format(file_arg.name if file_arg else ''))
-    print('flag_arg = "{}"'.format(flag_arg))
-    print('positional = "{}"'.format(pos_arg))
+# --------------------------------------------------
+
+def create_pool(pctgc, max_len, seq_type):
+    """ Create the pool of bases """
+    t_or_u = 'T' if seq_type == 'dna' else 'U'
+    num_gc = int((pctgc / 2) * max_len)
+    num_at = int(((1 - pctgc) / 2) * max_len)
+    pool = 'A' * num_at + 'C' * num_gc + 'G' * num_gc + t_or_u * num_at
+    for _ in range(max_len - len(pool)):
+        pool += random.choice(pool)
+    return ''.join(sorted(pool))
 
 
 # --------------------------------------------------
