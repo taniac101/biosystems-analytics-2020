@@ -21,7 +21,7 @@ def get_args():
                         metavar='str',
                         type=str,
                         default='dna',
-                        choices=['dna', 'rna'])
+                        choices=['dna','rna'])
     parser.add_argument('-n',
                         '--numseqs',
                         help='Number of sequences to create',
@@ -64,29 +64,32 @@ def get_args():
     return parser.parse_args()
 
 # --------------------------------------------------
-def create_pool(pctgc, maxlen, seq_type):
+def main():
+    """Make a jazz noise here"""
+    args = get_args()
+    seqtype = args.seqtype
+    pctgc = args.pctgc
+    maxlen = args.maxlen
+    random.seed(args.seed)
+    pool = create_pool(pctgc, maxlen, seqtype)
+    for i in range(0, args.numseqs):
+        seq_len = random.randint(args.minlen, maxlen)
+        seq = ''.join(random.sample(pool, seq_len))
+        num_seq = i + 1
+        print(f'>{num_seq}\n{seq}', file=args.outfile)
+    print(f'Done, wrote {num_seq} {seqtype.upper()}'
+          f' sequences to "{args.outfile.name}".')
+# --------------------------------------------------
+
+def create_pool(pctgc, maxlen, seqtype):
     """ Create the pool of bases """
-    t_or_u = 'T' if seq_type == 'dna' else 'U'
+    t_or_u = 'T' if seqtype == 'dna' else 'U'
     num_gc = int((pctgc / 2) * maxlen)
     num_at = int(((1 - pctgc) / 2) * maxlen)
     pool = 'A' * num_at + 'C' * num_gc + 'G' * num_gc + t_or_u * num_at
     for _ in range(maxlen - len(pool)):
         pool += random.choice(pool)
     return ''.join(sorted(pool))
-
-# --------------------------------------------------
-def main():
-    """Make a jazz noise here"""
-    args = get_args()
-    random.seed(args.seed)
-    pool = create_pool(args.pctgc, args.maxlen, args.seqtype)
-    for i in range(0, args.numseqs):
-        seq_len = random.randint(args.minlen, args.maxlen)
-        seq = ''.join(random.sample(pool, seq_len))
-        num_seq = i + 1
-        print(f'>{num_seq}\n{seq}', file=args.outfile)
-    print(f'Done, wrote {num_seq} {args.seqtype.upper()}'
-          f' sequences to "{args.outfile.name}".')
 
 # --------------------------------------------------
 if __name__ == '__main__':
