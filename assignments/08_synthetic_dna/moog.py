@@ -72,15 +72,13 @@ def main():
     maxlen = args.maxlen
     random.seed(args.seed)
     pool = create_pool(pctgc, maxlen, seqtype)
-    for i in range(0, args.numseqs):
+    for i in range(1, args.numseqs+1):
         seq_len = random.randint(args.minlen, maxlen)
         seq = ''.join(random.sample(pool, seq_len))
-        num_seq = i + 1
-        print(f'>{num_seq}\n{seq}', file=args.outfile)
-    print(f'Done, wrote {num_seq} {seqtype.upper()}'
+        print(f'>{i}\n{seq}', file=args.outfile)
+    print(f'Done, wrote {i} {seqtype.upper()}'
           f' sequences to "{args.outfile.name}".')
 # --------------------------------------------------
-
 def create_pool(pctgc, maxlen, seqtype):
     """ Create the pool of bases """
     t_or_u = 'T' if seqtype == 'dna' else 'U'
