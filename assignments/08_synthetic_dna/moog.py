@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Author : Tania Chakraborty(taniac101)
+Author : TaniaChakraborty(taniac101)
 Date   : 2020-03-26
 Purpose: Synthetic sequence creation
 """
