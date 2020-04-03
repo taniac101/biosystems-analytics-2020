@@ -40,7 +40,6 @@ def get_args():
         os.makedirs(args.outdir)
     return parser.parse_args()
 
-
 # --------------------------------------------------
 def main():
     """Make a jazz noise here"""
@@ -59,7 +58,6 @@ def main():
     file = "file" if i == 1 else "files"
     print(f'Wrote {num_seqs:,d} sequences '
           f'from {i} {file} to directory "{args.outdir}"')
-
 
 # --------------------------------------------------
 if __name__ == '__main__':
