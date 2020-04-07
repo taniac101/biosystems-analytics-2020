@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
-Author : taniac
+Author : Tania Chakraborty (taniac101)
 Date   : 2020-04-06
-Purpose: Rock the Casbah
+Purpose: Project- N50 of some sequences from a fasta file
 """
 
 import argparse
 import os
 import sys
 from itertools import groupby
+from Bio import SeqIO
 
 # --------------------------------------------------
 def get_args():
@@ -37,31 +38,22 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    sequences = args.input_files()
-    seq_lengths = get_seq_lengths(sequences)
-    n50 = calc_n50(seq_lengths)
-    print('N50: %s kb' % (n50 / 1000))
-    print('Size: %s' % (sum(chrom_lengths)))
-
-# --------------------------------------------------
-def get_seq_length(sequences):
     seq_lengths = []
-    with open(genome_fasta, 'r') as input_handle:
-        fasta_reader = (x[1] for x in groupby(input_handle, lambda line: line.startswith('>')))
-        for header in fasta_reader:
+    for fh in args.input_files:
+        sequence_reader = (x[1] for x in groupby(fh, lambda line: line.startswith('>')))
+        for header in sequence_reader:
             next(header).strip('>').rstrip('\n')
-            length = len(''.join(s.strip() for s in next(fasta_reader)))
+            length = len(''.join(s.strip() for s in next(sequence_reader)))
             seq_lengths.append(length)
-        return seq_lengths
+    half_length = sum(seq_lengths) / 2
+    total_sequence_lengths = 0
+    for i in sorted(seq_lengths, reverse=True):
+        total_sequence_lengths += i
+        if total_sequence_lengths >= half_length:
+            n50 = i
+    #print(f'File: {args.input_files}{n50}')
+    print(sorted(seq_lengths, reverse = True),half_length,total_sequence_lengths,n50)
 
-# --------------------------------------------------
-def calc_n50(seq_lengths):
-    half_size = sum(seq_lengths) / 2
-    total_seq_lengths = 0
-    for seq_length in sorted(seq_lengths, reverse=True):
-        total_seq_lengths += seq_length
-        if total_seq_lengths >= half_size:
-            return seq_length
 
 # --------------------------------------------------
 if __name__ == '__main__':
