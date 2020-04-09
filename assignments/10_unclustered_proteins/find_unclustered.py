@@ -45,9 +45,15 @@ def main():
 
     args = get_args()
     for line in args.cdhit:
-        cluster_reader = (x[1] for x in groupby(line, lambda line: line.startswith('>')))
-    print(cluster_reader)
-
+        if line.startswith('>'):
+            pass
+        else:
+            match = re.search(r'>(\d+)', line)
+            cd_id = match.group(1)
+            protein_ids = set()
+            protein_ids.add(cd_id)
+    for rec in SeqIO.parse(args.proteins, 'fasta'):
+        prot_id=
 # --------------------------------------------------
 if __name__ == '__main__':
     main()
