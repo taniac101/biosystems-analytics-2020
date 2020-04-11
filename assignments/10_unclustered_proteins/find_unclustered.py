@@ -28,7 +28,7 @@ def get_args():
                         '--outfile',
                         help='Output file',
                         metavar='outfile',
-                        type=argparse.FileType('w'),
+                        type=argparse.FileType('wt'),
                         default='unclustered.fa')
     parser.add_argument('-p',
                         '--proteins',
@@ -44,16 +44,22 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
+    protein_ids = set()
+    num_ids_written, num_total_unclustered = 0, 0
     for line in args.cdhit:
-        if line.startswith('>'):
-            pass
-        else:
-            match = re.search(r'>(\d+)', line)
-            cd_id = match.group(1)
-            protein_ids = set()
+        if not line.startswith('>'):
+            cd_id = re.search(r'>(\d+)', line).group()
             protein_ids.add(cd_id)
     for rec in SeqIO.parse(args.proteins, 'fasta'):
-        prot_id=
+        prot_ids = '>' + re.sub(r'\|.*', '', rec.id)
+        num_total_unclustered += 1
+        if prot_ids not in protein_ids:
+            print(f'>{prot_ids}', file=args.outfile)
+            num_ids_written += 1
+    print(f'Wrote {num_ids_written} of {num_total_unclustered:,d} '
+          f'unclustered proteins to "{args.outfile.name}"')
+
+
 # --------------------------------------------------
 if __name__ == '__main__':
     main()
