@@ -6,11 +6,9 @@ Purpose: Find Unclustered Proteins
 """
 
 import argparse
-import os
-import sys
-from itertools import groupby
-from Bio import SeqIO
 import re
+from Bio import SeqIO
+
 
 # --------------------------------------------------
 def get_args():
@@ -19,7 +17,9 @@ def get_args():
     parser = argparse.ArgumentParser(
         description='Find proteins not clustered by CD-HIT',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-c', '--cdhit', metavar='cdhit',
+    parser.add_argument('-c',
+                        '--cdhit',
+                        metavar='cdhit',
                         help='Output file from CD-HIT (clustered proteins)',
                         type=argparse.FileType('r'),
                         default=None,
@@ -38,6 +38,7 @@ def get_args():
                         default=None,
                         required=True)
     return parser.parse_args()
+
 
 # --------------------------------------------------
 def main():
