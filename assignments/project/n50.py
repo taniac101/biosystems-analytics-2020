@@ -29,7 +29,6 @@ def get_args():
                         metavar='FILE',
                         type=argparse.FileType('w'),
                         default='n50.txt')
-
     return parser.parse_args()
 
 
@@ -51,8 +50,8 @@ def main():
         total_sequence_lengths += i
         if total_sequence_lengths >= half_length:
             n50 = i
-    #print(f'File: {args.input_files}{n50}')
-    print(sorted(seq_lengths, reverse = True),half_length,total_sequence_lengths,n50)
+    # print(f'File: {args.input_files}{n50}')
+    print(sorted(seq_lengths, reverse=True), half_length, total_sequence_lengths, n50)
 
 
 # --------------------------------------------------
