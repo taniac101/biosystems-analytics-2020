@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""tests for sampler.py"""
+"""tests for n50.py"""
 
 import os
 import random
