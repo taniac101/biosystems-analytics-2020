@@ -1,4 +1,4 @@
-<h2> Calculate the N50 score of An Assembly</h2>
+## Calculate the N50 score of An Assembly
 
 Genome assemblies are often given scores to denote how "complete" an assembly is, otherwise, it would be hard to understand the quality of the genome assemble. N50 score is one such measure, higher the N50 score, more complete the genome assembly is. It is calculated in the following way. First, all the contigs in the assembly are lined up in order of their sequence lengths. Then the contig sequences are counted, starting from the largest to smallest until the contig length reaches half of the length of the total assembly. The length of shortest contig in this list is the N50 value. Another way of thinking about it is that at least half of all the nucleotides in the assembly are in contigs of length N50 or higher.
 Write a Python program **n50.py** that calculates the N50 score of input sequences into an output text file.
