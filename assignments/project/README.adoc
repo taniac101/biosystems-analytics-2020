@@ -50,22 +50,20 @@ N50 Score: 148
 All tests should pass:
 
 ```
-==================================================================== test session starts ===================================================================
-platform linux -- Python 3.6.9, pytest-5.3.5, py-1.8.1, pluggy-0.13.1 -- /usr/bin/python3
-cachedir: .pytest_cache
-rootdir: /mnt/c/Users/tania/class/my_repo/biosystems-analytics-2020/assignments/project
+==================================================================== test session starts ==============================================
+.....
 collected 9 items
 
-test.py::test_exists PASSED                                                                                                                   [ 11%]
-test.py::test_usage PASSED                                                                                                                    [ 22%]
-test.py::test_bad_file PASSED                                                                                                                 [ 33%]
-test.py::test_file1 PASSED                                                                                                                    [ 44%]
-test.py::test_file2 PASSED                                                                                                                    [ 55%]
-test.py::test_file3 PASSED                                                                                                                    [ 66%]
-test.py::test_file4 PASSED                                                                                                                    [ 77%]
-test.py::test_Atgenome PASSED                                                                                                                 [ 88%]
-test.py::test_outfile_options PASSED                                                                                                          [100%]
+test.py::test_exists PASSED                                                                                        [ 11%]
+test.py::test_usage PASSED                                                                                         [ 22%]
+test.py::test_bad_file PASSED                                                                                      [ 33%]
+test.py::test_file1 PASSED                                                                                         [ 44%]
+test.py::test_file2 PASSED                                                                                         [ 55%]
+test.py::test_file3 PASSED                                                                                         [ 66%]
+test.py::test_file4 PASSED                                                                                         [ 77%]
+test.py::test_Atgenome PASSED                                                                                      [ 88%]
+test.py::test_outfile_options PASSED                                                                               [100%]
 
-================================================================= 9 passed, 1 warning in 5.67s ================================================================
+================================================================= 9 passed, 1 warning in 5.67s =========================================
 
 ```
