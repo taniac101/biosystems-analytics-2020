@@ -54,3 +54,85 @@ def test_bad_file():
     assert re.match('usage:', out, re.I)
     assert re.search(f"No such file or directory: '{bad}'", out)
 # --------------------------------------------------
+def test_file1():
+    """run on file 1 with default outfile"""
+    out_file = 'n50.txt'
+    in_file = 'file1.fa'
+    try:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+
+        rv, out = getstatusoutput(f' {prg} {in_file}')
+        assert rv == 0
+        assert out == f'Done, details are in "{out_file}".'
+        assert os.path.isfile(out_file)
+
+        # correct number of seqs
+        seqs = list(SeqIO.parse(in_file, 'fasta'))
+        assert len(seqs) == 456
+    finally:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+
+# --------------------------------------------------
+def test_file2():
+    """run on file 2 with default outfile"""
+    out_file = 'n50.txt'
+    in_file = 'file2.fa'
+    try:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+
+        rv, out = getstatusoutput(f' {prg} {in_file}')
+        assert rv == 0
+        assert out == f'Done, details are in "{out_file}".'
+        assert os.path.isfile(out_file)
+
+        # correct number of seqs
+        seqs = list(SeqIO.parse(in_file, 'fasta'))
+        assert len(seqs) == 1500
+    finally:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+
+# --------------------------------------------------
+def test_file3():
+    """run on file 1 with default outfile"""
+    out_file = 'n50.txt'
+    in_file = 'file3.fa'
+    try:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+
+        rv, out = getstatusoutput(f' {prg} {in_file}')
+        assert rv == 0
+        assert out == f'Done, details are in "{out_file}".'
+        assert os.path.isfile(out_file)
+
+        # correct number of seqs
+        seqs = list(SeqIO.parse(in_file, 'fasta'))
+        assert len(seqs) == 4563
+    finally:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+
+# --------------------------------------------------
+def test_file4():
+    """run on file 1 with default outfile"""
+    out_file = 'n50.txt'
+    in_file = 'file4.fa'
+    try:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+
+        rv, out = getstatusoutput(f' {prg} {in_file}')
+        assert rv == 0
+        assert out == f'Done, details are in "{out_file}".'
+        assert os.path.isfile(out_file)
+
+        # correct number of seqs
+        seqs = list(SeqIO.parse(in_file, 'fasta'))
+        assert len(seqs) == 9888
+    finally:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
