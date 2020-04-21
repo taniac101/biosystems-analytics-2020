@@ -47,7 +47,7 @@ def main():
     index_at_min_value = numpy.where(total_length_rev_order == min_value)
     n50 = all_contig_lengths[int(index_at_min_value[0])]
     print(f'Filename: {args.input_file.name}\nTotal Size = {sum(all_contig_lengths):,d}\n'
-          f'Total Contigs = {len(contig_lengths)}\nN50 Score: {n50:,d}', file=args.outfile)
+          f'Total Contigs = {len(contig_lengths):,d}\nN50 Score: {n50:,d}', file=args.outfile)
     print(f'Done, details are in "{args.outfile.name}". The N50 Score is {n50:,d}.')
 
 
