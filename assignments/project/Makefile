@@ -8,10 +8,13 @@ run: fasta
 test: fasta
 	pytest --disable-pytest-warnings -xv test.py
 
-fasta: file1.fa file2.fa file3.fa file4.fa
+fasta: testfile.fa file1.fa file2.fa file3.fa file4.fa
 
 clean:
 	rm -rf *.fa out __pycache__
+
+testfile.fa:
+	time $(MOOG) -n 10 -o testfile1.fa -t dna -m 5 -x 10
 
 file1.fa:
 	time $(MOOG) -n 456 -o file1.fa -t dna -m 45 -x 200

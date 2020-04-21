@@ -7,6 +7,7 @@ Purpose: Project- N50 of some sequences from a fasta file
 
 import argparse
 from itertools import groupby
+import numpy
 # --------------------------------------------------
 def get_args():
     """Get command-line arguments"""
@@ -33,21 +34,21 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    contig_lengths, cumulative_contig_lengths = [], 0
+    contig_lengths = []
     sequences = (x[1] for x in groupby(args.input_file, lambda line: line.startswith('>')))
     for line in sequences:
         next(line).strip('>').rstrip('\n')
         sequence_length = len(''.join(s.strip() for s in next(sequences)))
         contig_lengths.append(sequence_length)
-    for i in sorted(contig_lengths, reverse=True):
-        cumulative_contig_lengths += i
-        if cumulative_contig_lengths >= sum(contig_lengths) / 2:
-            n50 = i
-    print(f'Filename: {args.input_file.name}\nTotal Size = {sum(contig_lengths):,d}\n'
-        f'Total Contigs = {len(contig_lengths)}\nN50 Score: {n50:,d}',
-        file=args.outfile)
-    print(f'Processed the fasta file "{args.input_file.name}", the N50 Score is {n50:,d}. '
-        f'Details are in the "{args.outfile.name}".')
+    all_contig_lengths = sorted(contig_lengths, reverse=True)
+    half_of_total_length = int(sum(contig_lengths) / 2)
+    total_length_rev_order = numpy.cumsum(all_contig_lengths)
+    min_value = min(total_length_rev_order[total_length_rev_order >= half_of_total_length])
+    index_at_min_value = numpy.where(total_length_rev_order == min_value)
+    n50 = all_contig_lengths[int(index_at_min_value[0])]
+    print(f'Filename: {args.input_file.name}\nTotal Size = {sum(all_contig_lengths):,d}\n'
+          f'Total Contigs = {len(contig_lengths)}\nN50 Score: {n50:,d}', file=args.outfile)
+    print(f'Done, details are in "{args.outfile.name}".')
 
 
 # --------------------------------------------------
