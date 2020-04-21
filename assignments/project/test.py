@@ -13,10 +13,10 @@ from itertools import chain
 from shutil import rmtree
 
 prg = './n50.py'
-n1k = './n1k.fa'
-n10k = './n10k.fa'
-n100k = './n100k.fa'
-n1m = './n1m.fa'
+file1 = './file1.fa'
+file2 = './file2.fa'
+file3 = './file3.fa'
+file4 = './file4.fa'
 
 
 # --------------------------------------------------
@@ -30,7 +30,7 @@ def random_string():
 def test_exists():
     """usage"""
 
-    for file in [prg, n1k, n10k, n100k, n1m]:
+    for file in [prg, file1, file2, file3, file4]:
         assert os.path.isfile(file)
 
 
@@ -53,3 +53,4 @@ def test_bad_file():
     assert rv != 0
     assert re.match('usage:', out, re.I)
     assert re.search(f"No such file or directory: '{bad}'", out)
+# --------------------------------------------------

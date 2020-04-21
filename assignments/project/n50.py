@@ -6,11 +6,7 @@ Purpose: Project- N50 of some sequences from a fasta file
 """
 
 import argparse
-import os
-import sys
 from itertools import groupby
-from Bio import SeqIO
-
 # --------------------------------------------------
 def get_args():
     """Get command-line arguments"""
@@ -19,15 +15,15 @@ def get_args():
         description='Calculate N50 score of sequences',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('input_files',metavar='FILE',
+    parser.add_argument('input_file',
+                        metavar='FILE',
                         help='Input FASTA file(s)',
-                        type=argparse.FileType('r'),
-                        nargs='+')
+                        type=argparse.FileType('rt'))
     parser.add_argument('-o',
                         '--outfile',
                         help='Output filename',
                         metavar='FILE',
-                        type=argparse.FileType('w'),
+                        type=argparse.FileType('wt'),
                         default='n50.txt')
     return parser.parse_args()
 
@@ -37,21 +33,21 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    seq_lengths = []
-    for fh in args.input_files:
-        sequence_reader = (x[1] for x in groupby(fh, lambda line: line.startswith('>')))
-        for header in sequence_reader:
-            next(header).strip('>').rstrip('\n')
-            length = len(''.join(s.strip() for s in next(sequence_reader)))
-            seq_lengths.append(length)
-    half_length = sum(seq_lengths) / 2
-    total_sequence_lengths = 0
-    for i in sorted(seq_lengths, reverse=True):
-        total_sequence_lengths += i
-        if total_sequence_lengths >= half_length:
+    contig_lengths, cumulative_contig_lengths = [], 0
+    sequences = (x[1] for x in groupby(args.input_file, lambda line: line.startswith('>')))
+    for line in sequences:
+        next(line).strip('>').rstrip('\n')
+        sequence_length = len(''.join(s.strip() for s in next(sequences)))
+        contig_lengths.append(sequence_length)
+    for i in sorted(contig_lengths, reverse=True):
+        cumulative_contig_lengths += i
+        if cumulative_contig_lengths >= sum(contig_lengths) / 2:
             n50 = i
-    # print(f'File: {args.input_files}{n50}')
-    print(sorted(seq_lengths, reverse=True), half_length, total_sequence_lengths, n50)
+    print(f'Filename: {args.input_file.name}\nTotal Size = {sum(contig_lengths):,d}\n'
+        f'Total Contigs = {len(contig_lengths)}\nN50 Score: {n50:,d}',
+        file=args.outfile)
+    print(f'Processed the fasta file "{args.input_file.name}", the N50 Score is {n50:,d}. '
+        f'Details are in the "{args.outfile.name}".')
 
 
 # --------------------------------------------------

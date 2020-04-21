@@ -3,27 +3,27 @@
 MOOG = "../08_synthetic_dna/moog.py"
 
 run: fasta
-	./sampler.py *.fa
+	./n50.py *.fa
 
 test: fasta
 	pytest --disable-pytest-warnings -xv test.py
 
-fasta: n1k.fa n10k.fa n100k.fa n1m.fa
+fasta: file1.fa file2.fa file3.fa file4.fa
 
 clean:
 	rm -rf *.fa out __pycache__
 
-n1k.fa:
-	time $(MOOG) -n 1000 -o n1k.fa -t dna -m 75 -x 200
+file1.fa:
+	time $(MOOG) -n 456 -o file1.fa -t dna -m 45 -x 200
 
-n10k.fa:
-	time $(MOOG) -n 10000 -o n10k.fa -t dna -m 75 -x 200
+file2.fa:
+	time $(MOOG) -n 1500 -o file2.fa -t dna -m 300 -x 1000
 
-n100k.fa:
-	time $(MOOG) -n 100000 -o n100k.fa -t dna -m 75 -x 200
+file3.fa:
+	time $(MOOG) -n 4563 -o file3.fa -t dna -m 500 -x 10000
 
-n1m.fa:
-	time $(MOOG) -n 1000000 -o n1m.fa -t dna -m 75 -x 200
+file4.fa:
+	time $(MOOG) -n 9888 -o file4.fa -t dna -m 75 -x 200
 
 pdf:
 	asciidoctor-pdf README.adoc
