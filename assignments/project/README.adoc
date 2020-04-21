@@ -54,12 +54,12 @@ All tests should pass:
 .....
 collected 7 items
 
-test.py::test_exists PASSED                                                                                                                                      [ 14%]
-test.py::test_usage PASSED                                                                                                                                       [ 28%]
-test.py::test_bad_file PASSED                                                                                                                                    [ 42%]
-test.py::test_file1 PASSED                                                                                                                                       [ 57%]
-test.py::test_file2 PASSED                                                                                                                                       [ 71%]
-test.py::test_file3 PASSED                                                                                                                                       [ 85%]
-test.py::test_file4 PASSED                                                                                                                                       [100%]
+test.py::test_exists PASSED                                                        [ 14%]
+test.py::test_usage PASSED                                                         [ 28%]
+test.py::test_bad_file PASSED                                                      [ 42%]
+test.py::test_file1 PASSED                                                         [ 57%]
+test.py::test_file2 PASSED                                                         [ 71%]
+test.py::test_file3 PASSED                                                         [ 85%]
+test.py::test_file4 PASSED                                                         [100%]
 
 ```
