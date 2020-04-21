@@ -64,7 +64,7 @@ def test_file1():
 
         rv, out = getstatusoutput(f' {prg} {in_file}')
         assert rv == 0
-        assert out == f'Done, details are in "{out_file}".'
+        assert out == f'Done, details are in "{out_file}". The N50 Score is 148.'
         assert os.path.isfile(out_file)
 
         # correct number of seqs
@@ -85,7 +85,7 @@ def test_file2():
 
         rv, out = getstatusoutput(f' {prg} {in_file}')
         assert rv == 0
-        assert out == f'Done, details are in "{out_file}".'
+        assert out == f'Done, details are in "{out_file}". The N50 Score is 741.'
         assert os.path.isfile(out_file)
 
         # correct number of seqs
@@ -97,7 +97,7 @@ def test_file2():
 
 # --------------------------------------------------
 def test_file3():
-    """run on file 1 with default outfile"""
+    """run on file 3 with default outfile"""
     out_file = 'n50.txt'
     in_file = 'file3.fa'
     try:
@@ -106,7 +106,7 @@ def test_file3():
 
         rv, out = getstatusoutput(f' {prg} {in_file}')
         assert rv == 0
-        assert out == f'Done, details are in "{out_file}".'
+        assert out == f'Done, details are in "{out_file}". The N50 Score is 7,217.'
         assert os.path.isfile(out_file)
 
         # correct number of seqs
@@ -118,7 +118,7 @@ def test_file3():
 
 # --------------------------------------------------
 def test_file4():
-    """run on file 1 with default outfile"""
+    """run on file 4 with default outfile"""
     out_file = 'n50.txt'
     in_file = 'file4.fa'
     try:
@@ -127,12 +127,56 @@ def test_file4():
 
         rv, out = getstatusoutput(f' {prg} {in_file}')
         assert rv == 0
-        assert out == f'Done, details are in "{out_file}".'
+        assert out == f'Done, details are in "{out_file}". The N50 Score is 151.'
         assert os.path.isfile(out_file)
 
         # correct number of seqs
         seqs = list(SeqIO.parse(in_file, 'fasta'))
         assert len(seqs) == 9888
+    finally:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+# --------------------------------------------------
+def test_Atgenome():
+    """run on Arabidopsis thaliana genome with default outfile and check if the n50 score is correct"""
+    out_file = 'n50.txt'
+    in_file = 'At_GCA_000001735.2_TAIR10.1_genomic.fasta'
+    try:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+
+        rv, out = getstatusoutput(f' {prg} {in_file}')
+        assert rv == 0
+        assert out == f'Done, details are in "{out_file}". The N50 Score is 23,459,830.'
+        assert os.path.isfile(out_file)
+
+        # correct number of seqs
+        seqs = list(SeqIO.parse(in_file, 'fasta'))
+        assert len(seqs) == 7
+    finally:
+        if os.path.isfile(out_file):
+            os.remove(out_file)
+# --------------------------------------------------
+def test_outfile_options():
+    """different outfile"""
+
+    in_file = "file1.fa"
+    out_file = random_string()
+    try:
+        if os.path.isfile(out_file):
+            rmtree(out_file)
+
+        cmd = f'{prg} -o {out_file} {in_file}'
+        print(cmd)
+        rv, out = getstatusoutput(cmd)
+        assert rv == 0
+        assert out == f'Done, details are in "{out_file}". The N50 Score is 148.'
+        assert os.path.isfile(out_file)
+
+        # correct number of seqs
+        seqs = list(SeqIO.parse(in_file, 'fasta'))
+        assert len(seqs) == 456
+
     finally:
         if os.path.isfile(out_file):
             os.remove(out_file)
