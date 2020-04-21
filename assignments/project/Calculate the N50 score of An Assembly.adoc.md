@@ -14,10 +14,10 @@ Here is the usage your program should create for -h or --help:
 
 ```python
 $ ./n50.py -h
-usage: n50.py [-h] [-o FILE] FILE [FILE ...]
+usage: n50.py [-h] [-o FILE] FILE
 Calculate N50 score of sequences
 positional arguments:
-FILE 				Input FASTA file(s)
+FILE 				Input FASTA file
 optional arguments:
 -h, --help               Show this help message and exit
 -o FILE, --outfile FILE  Output filename (default: n50.txt)
