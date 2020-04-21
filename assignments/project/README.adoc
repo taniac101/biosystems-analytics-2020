@@ -12,7 +12,7 @@ The parameters for your program are:
 
 Here is the usage your program should create for -h or --help:
 
-```python
+```
 $ ./n50.py -h
 usage: n50.py [-h] [-o FILE] FILE
 Calculate N50 score of sequences
@@ -25,7 +25,7 @@ optional arguments:
 
 When run with **file1.fa** it should print this to the stdout:
 
-```python
+```
 $ ./n50.py file1.fa
 Processed the fasta file "file1.fa". Details are in "n50.txt".
 ```
@@ -39,7 +39,7 @@ The output file should contain the following information:
 
 This is what it should look like :
 
-```python
+```
 Filename: file1.fa
 Total Size = 56,266
 Total Contigs = 456
@@ -49,7 +49,7 @@ N50 Score: 148
 
 All tests should pass:
 
-```python
+```
 ================================ test session starts ===================================
 .....
 collected 7 items
