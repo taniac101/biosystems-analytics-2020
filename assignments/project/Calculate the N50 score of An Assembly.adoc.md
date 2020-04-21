@@ -17,7 +17,7 @@ $ ./n50.py -h
 usage: n50.py [-h] [-o FILE] FILE [FILE ...]
 Calculate N50 score of sequences
 positional arguments:
-FILE 					 Input FASTA file(s)
+FILE 				Input FASTA file(s)
 optional arguments:
 -h, --help               Show this help message and exit
 -o FILE, --outfile FILE  Output filename (default: n50.txt)
