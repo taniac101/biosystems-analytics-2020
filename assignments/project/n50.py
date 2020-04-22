@@ -2,7 +2,7 @@
 """
 Author : Tania Chakraborty (taniac101)
 Date   : 2020-04-06
-Purpose: Project- N50 of some sequences from a fasta file
+Purpose: Project- Calculate N50 Score (NumPy Version)
 """
 
 import argparse
