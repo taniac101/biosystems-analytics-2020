@@ -23,7 +23,7 @@ def get_args():
     parser.add_argument('file',
                         metavar='FILE',
                         help='SwissProt file',
-                        type=argparse.FileType('rt'))
+                        type=argparse.FileType('r'))
     parser.add_argument('-k',
                         '--keyword',
                         help='Keyword to take',
@@ -43,35 +43,28 @@ def get_args():
                         '--outfile',
                         help='Output filename',
                         metavar='FILE',
-                        type=argparse.FileType('at'),
+                        type=argparse.FileType('wt'),
                         default='out.fa')
 
     return parser.parse_args()
-
 
 # --------------------------------------------------
 def main():
     """Make a jazz noise here"""
 
     args = get_args()
+    t, k = set(), set()
     skiptaxa = set(map(str.lower, args.skiptaxa))
-    keywords = (set(map(str.lower, args.keyword)))
-    print(skiptaxa, keywords)
-    num_skipped, num_taken = 0, 0
+    keywords = set(map(str.lower, args.keyword))
     for rec in SeqIO.parse(args.file, "swiss"):
-        if "keywords" and "taxonomy" in rec.annotations.keys():
-            taxa = set(map(str.lower,(rec.annotations.get('taxonomy'))))
-            kword = set(map(str.lower,(rec.annotations.get('keywords'))))
-            print(taxa,kword)
-            break
-    taken = keywords.intersection(kword)
-    skip = skiptaxa.intersection(taxa)
-    print(taken,skip)
-    #for i in taken:
-        #SeqIO.write(i, args.outfile, 'fasta')
-    #print(skipped)
-
-
+        taxa = set(map(str.lower,(rec.annotations.get('taxonomy'))))
+        t.update(taxa)
+        skip = set(map(str.lower, (rec.annotations.get('keywords'))))
+        k.update(skip)
+    taken = keywords.intersection(k)
+    skipped = t - skiptaxa.intersection(t)
+    print(f'Done, skipped {len(skipped)} and taken {len(taken)}.'
+          f' See output in {args.outfile.name}.')
 # --------------------------------------------------
 if __name__ == '__main__':
     main()
