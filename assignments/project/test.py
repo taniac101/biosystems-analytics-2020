@@ -106,7 +106,7 @@ def test_file3():
 
         rv, out = getstatusoutput(f' {prg} {in_file}')
         assert rv == 0
-        assert out == f'Done, details are in "{out_file}". The N50 Score is 7,217.'
+        assert out == f'Done, details are in "{out_file}". The N50 Score is 7,084.'
         assert os.path.isfile(out_file)
 
         # correct number of seqs
@@ -127,32 +127,12 @@ def test_file4():
 
         rv, out = getstatusoutput(f' {prg} {in_file}')
         assert rv == 0
-        assert out == f'Done, details are in "{out_file}". The N50 Score is 151.'
+        assert out == f'Done, details are in "{out_file}". The N50 Score is 152.'
         assert os.path.isfile(out_file)
 
         # correct number of seqs
         seqs = list(SeqIO.parse(in_file, 'fasta'))
         assert len(seqs) == 9888
-    finally:
-        if os.path.isfile(out_file):
-            os.remove(out_file)
-# --------------------------------------------------
-def test_Atgenome():
-    """run on Arabidopsis thaliana genome with default outfile and check if the n50 score is correct"""
-    out_file = 'n50.txt'
-    in_file = 'At_GCA_000001735.2_TAIR10.1_genomic.fasta'
-    try:
-        if os.path.isfile(out_file):
-            os.remove(out_file)
-
-        rv, out = getstatusoutput(f' {prg} {in_file}')
-        assert rv == 0
-        assert out == f'Done, details are in "{out_file}". The N50 Score is 23,459,830.'
-        assert os.path.isfile(out_file)
-
-        # correct number of seqs
-        seqs = list(SeqIO.parse(in_file, 'fasta'))
-        assert len(seqs) == 7
     finally:
         if os.path.isfile(out_file):
             os.remove(out_file)
