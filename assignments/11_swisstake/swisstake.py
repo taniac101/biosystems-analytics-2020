@@ -53,18 +53,23 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    t, k = set(), set()
+    counts_skipped = 0
     skiptaxa = set(map(str.lower, args.skiptaxa))
     keywords = set(map(str.lower, args.keyword))
     for rec in SeqIO.parse(args.file, "swiss"):
-        taxa = set(map(str.lower,(rec.annotations.get('taxonomy'))))
-        t.update(taxa)
-        skip = set(map(str.lower, (rec.annotations.get('keywords'))))
-        k.update(skip)
-    taken = keywords.intersection(k)
-    skipped = t - skiptaxa.intersection(t)
-    print(f'Done, skipped {len(skipped)} and taken {len(taken)}.'
-          f' See output in {args.outfile.name}.')
+        if "keywords" and "taxonomy" in rec.annotations.keys():
+            taxa = set(map(str.lower,(rec.annotations.get('taxonomy'))))
+            kword = set(map(str.lower, (rec.annotations.get('keywords'))))
+            taken = [keywords.intersection(kword)]
+            skipped = [skiptaxa.intersection(taxa)]
+            if taken:
+                SeqIO.write(rec, args.outfile, 'fasta')
+            if skipped:
+                counts_skipped += 1
+    print(f'Done, skipped {counts_skipped}, taken {len(taken)}. '
+          f'See output in {args.outfile.name}.')
+
+
 # --------------------------------------------------
 if __name__ == '__main__':
     main()
