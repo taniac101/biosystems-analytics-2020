@@ -37,7 +37,7 @@ def get_args():
                         metavar='taxa',
                         type=str,
                         nargs='+',
-                        default=None)
+                        default=' ')
     parser.add_argument('-o',
                         '--outfile',
                         help='Output filename',
