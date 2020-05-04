@@ -9,8 +9,6 @@ import argparse
 import os
 import sys
 from Bio import SeqIO
-from operator import itemgetter
-
 
 # --------------------------------------------------
 def get_args():
