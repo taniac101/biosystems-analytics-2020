@@ -8,6 +8,8 @@ Purpose: CSV Filter
 import argparse
 import os
 import sys
+import csvchk
+import csv
 
 
 # --------------------------------------------------
@@ -45,7 +47,8 @@ def get_args():
                         '--val',
                         help='Value for filter',
                         metavar='val',
-                        default=None)
+                        default=None,
+                        required=True)
 
     return parser.parse_args()
 
@@ -55,7 +58,13 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    print(args)
+    reader = csv.DictReader(args.file, delimiter=args.delimiter)
+    if not args.col in reader.fieldnames:
+        sys.exit(f'--col "{args.col}" not a valid column!')
+    else:
+        for rec in reader:
+            print(rec)
+            break
 
 
 # --------------------------------------------------
