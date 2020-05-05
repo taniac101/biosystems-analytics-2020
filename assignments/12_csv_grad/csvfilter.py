@@ -10,6 +10,8 @@ import os
 import sys
 import csvchk
 import csv
+from pprint import pprint
+import re
 
 
 # --------------------------------------------------
@@ -23,7 +25,6 @@ def get_args():
                         '--col',
                         help='Column for filter',
                         metavar='col',
-                        type=str,
                         default=None)
     parser.add_argument('-d',
                         '--delimiter',
@@ -58,13 +59,29 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
+    num_written = 0
     reader = csv.DictReader(args.file, delimiter=args.delimiter)
-    if not args.col in reader.fieldnames:
-        sys.exit(f'--col "{args.col}" not a valid column!')
+    writer = csv.DictWriter(args.outfile, fieldnames=reader.fieldnames)
+    writer.writeheader()
+    col_names = ', '.join(reader.fieldnames)
+    if args.col is not None:
+        if args.col not in reader.fieldnames:
+            sys.exit(f'--col "{args.col}" not a valid column!\nChoose from {col_names}')
+
+    if args.col is None:
+        for rec in reader:
+            if re.search(args.val, str(rec), re.IGNORECASE):
+                num_written += 1
+                print(rec, file=args.outfile, sep=args.delimiter)
     else:
         for rec in reader:
-            print(rec)
-            break
+            for key, value in rec.items():
+                if args.col.lower() in key:
+                    if re.search(args.val, value, re.IGNORECASE):
+                        num_written += 1
+                        print(rec, file=args.outfile, sep=args.delimiter)
+    print(f'Done, wrote {num_written} to "{args.outfile.name}".')
+
 
 
 # --------------------------------------------------
