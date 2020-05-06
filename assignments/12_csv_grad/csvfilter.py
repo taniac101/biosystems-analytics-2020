@@ -21,17 +21,6 @@ def get_args():
     parser = argparse.ArgumentParser(
         description='Filter delimited records',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-c',
-                        '--col',
-                        help='Column for filter',
-                        metavar='col',
-                        default=None)
-    parser.add_argument('-d',
-                        '--delimiter',
-                        help='Input delimiter',
-                        metavar='delim',
-                        type=str,
-                        default=',')
     parser.add_argument('-f',
                         '--file',
                         help='Input file',
@@ -39,6 +28,18 @@ def get_args():
                         type=argparse.FileType('r'),
                         default=None,
                         required=True)
+    parser.add_argument('-c',
+                        '--col',
+                        help='Column for filter',
+                        metavar='col',
+                        type=str,
+                        default='')
+    parser.add_argument('-d',
+                        '--delimiter',
+                        help='Input delimiter',
+                        metavar='delim',
+                        type=str,
+                        default=',')
     parser.add_argument('-o',
                         '--outfile',
                         help='Output filename',
@@ -61,26 +62,29 @@ def main():
 
     args = get_args()
     num_written = 0
-    reader = csv.DictReader(args.file, delimiter=args.delimiter)
-    writer = csv.DictWriter(args.outfile, fieldnames=reader.fieldnames, delimiter=',')
+    if args.delimiter == ',':
+        reader = csv.DictReader(args.file, delimiter=',')
+    else:
+        reader = csv.DictReader(args.file, delimiter='\t')
+
+    writer = csv.DictWriter(args.outfile, fieldnames = reader.fieldnames)
     writer.writeheader()
-    col_names = ', '.join(reader.fieldnames)
-    if args.col is not None:
+    
+    if args.col is not '':
         if args.col not in reader.fieldnames:
-            sys.exit(f'--col "{args.col}" not a valid column!\nChoose from {col_names}')
-        else:
-            for rec in reader:
-                for key, value in rec.items():
-                    if args.col.lower() in key:
-                        if re.search(args.val, value, re.IGNORECASE):
-                            num_written += 1
-                            writer.writerow(rec)
+            sys.exit(f'--col "{args.col}" not a valid column!')
     else:
         for rec in reader:
             if re.search(args.val, str(rec), re.IGNORECASE):
                 num_written += 1
                 writer.writerow(rec)
-
+    if args.col in reader.fieldnames:
+        for rec in reader:
+            for key, value in rec.items():
+                if args.col.lower() in key:
+                    if re.search(args.val, value, re.IGNORECASE):
+                        num_written += 1
+                        writer.writerow(rec)
     print(f'Done, wrote {num_written} to "{args.outfile.name}".')
 
 # --------------------------------------------------
