@@ -8,3 +8,6 @@ test:
 
 clean:
 	rm -rf __pycache__
+
+test:
+	pytest --disable-pytest-warnings -xv test.py
