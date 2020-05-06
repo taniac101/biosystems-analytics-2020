@@ -6,11 +6,8 @@ Purpose: CSV Filter
 """
 
 import argparse
-import os
 import sys
-import csvchk
 import csv
-from pprint import pprint
 import re
 
 
@@ -66,10 +63,8 @@ def main():
         reader = csv.DictReader(args.file, delimiter=',')
     else:
         reader = csv.DictReader(args.file, delimiter='\t')
-
-    writer = csv.DictWriter(args.outfile, fieldnames = reader.fieldnames)
+    writer = csv.DictWriter(args.outfile, fieldnames=reader.fieldnames)
     writer.writeheader()
-    
     if args.col is not '':
         if args.col not in reader.fieldnames:
             sys.exit(f'--col "{args.col}" not a valid column!')
@@ -86,6 +81,7 @@ def main():
                         num_written += 1
                         writer.writerow(rec)
     print(f'Done, wrote {num_written} to "{args.outfile.name}".')
+
 
 # --------------------------------------------------
 if __name__ == '__main__':
