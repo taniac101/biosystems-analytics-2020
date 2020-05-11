@@ -8,6 +8,8 @@ Purpose: Project- Calculate N50 Score (NumPy Version)
 import argparse
 from itertools import groupby
 import numpy
+from Bio import SeqIO
+
 # --------------------------------------------------
 def get_args():
     """Get command-line arguments"""
@@ -34,12 +36,7 @@ def main():
     """Make a jazz noise here"""
 
     args = get_args()
-    contig_lengths = []
-    sequences = (x[1] for x in groupby(args.input_file, lambda line: line.startswith('>')))
-    for line in sequences:
-        next(line).strip('>').rstrip('\n')
-        sequence_length = len(''.join(s.strip() for s in next(sequences)))
-        contig_lengths.append(sequence_length)
+    contig_lengths = [len(rec.seq) for rec in SeqIO.parse(args.input_file, 'fasta')]
     all_contig_lengths = sorted(contig_lengths, reverse=True)
     half_of_total_length = int(sum(contig_lengths) / 2)
     total_length_rev_order = numpy.cumsum(all_contig_lengths)
